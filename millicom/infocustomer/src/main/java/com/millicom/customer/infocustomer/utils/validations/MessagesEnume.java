@@ -14,7 +14,8 @@ public enum MessagesEnume {
     GENERIC_CODE(1002, "%s"),
     VALIDATE_FIELD_NOT_NULL(1100, "The field %s is required"),
     VALIDATE_FIELD_NOT_BLANK(1101, "The field %s is not empty"),
-    VALIDATE_FIELD_EMAIL(1103, "The field %s is not valid for a email");
+    VALIDATE_FIELD_EMAIL(1103, "The field %s is not valid for a email"),
+    VALIDATE_LIST(1104, "The list field %s is not empty");
 
     private final int code;
     private final String message;

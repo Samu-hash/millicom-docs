@@ -6,7 +6,6 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedSourcePolicy = ReportingPolicy.IGNORE)
-
 public interface PurchaseToDto {
     PurchaseToDto INSTANCE = Mappers.getMapper(PurchaseToDto.class);
 
@@ -15,7 +14,9 @@ public interface PurchaseToDto {
 
     @AfterMapping
     default void setDefaultValues(@MappingTarget PurchaseModel model){
-        model.setTypePay("target");
+        model.setTypePay("CREDIT_CARD");
         model.setStatus("A");
+        model.setTotalPay(0);
+        model.setTotalPay(0.0);
     }
 }

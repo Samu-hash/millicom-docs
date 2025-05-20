@@ -2,6 +2,9 @@ package com.millicom.customer.infocustomer.service;
 
 import com.millicom.customer.infocustomer.payload.error.ErrorHandler;
 import com.millicom.customer.infocustomer.payload.error.ValidationException;
+import com.millicom.customer.infocustomer.payload.mapper.PurchaseDetailToDto;
+import com.millicom.customer.infocustomer.payload.mapper.PurchaseToDto;
+import com.millicom.customer.infocustomer.payload.model.PurchaseDetailsModel;
 import com.millicom.customer.infocustomer.payload.model.PurchaseModel;
 import com.millicom.customer.infocustomer.payload.request.payment.PaymentRequest;
 import com.millicom.customer.infocustomer.service.repository.PurchaseDetailRepository;
@@ -22,7 +25,18 @@ public class PaymentServiceImpl implements PaymentService{
     public int processPayment(PaymentRequest request) {
         try {
 
-            purchaseRepository.save(new PurchaseModel());
+            PurchaseModel purchaseModel = PurchaseToDto.INSTANCE.classToModel(request);
+
+            request.getDetails().forEach(detail->{
+                purchaseModel.setTotalProduct(detail.getQuantity()+purchaseModel.getTotalProduct());
+                purchaseModel.setTotalPay((detail.getQuantity()*detail.getPrice())+purchaseModel.getTotalPay());
+            });
+
+            PurchaseModel modelNew = purchaseRepository.save(purchaseModel);
+
+            List<PurchaseDetailsModel> purchaseDetailsModel = PurchaseDetailToDto.INSTANCE.classToModel(request.getDetails(), modelNew.getIdPurchase());
+
+            purchaseDetailRepository.saveAll(purchaseDetailsModel);
 
             return 1;
         }catch (Exception e){

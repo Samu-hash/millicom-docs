@@ -5,6 +5,7 @@ import com.millicom.customer.infocustomer.payload.request.CustomerRequest;
 import com.millicom.customer.infocustomer.payload.request.CustomerRequestParams;
 import com.millicom.customer.infocustomer.payload.request.payment.PaymentRequest;
 import com.millicom.customer.infocustomer.service.CustomerService;
+import com.millicom.customer.infocustomer.service.PaymentService;
 import com.millicom.customer.infocustomer.utils.authorization.Authorization;
 import com.millicom.customer.infocustomer.utils.validations.ValidateCustomParams;
 import com.millicom.customer.infocustomer.utils.validations.ValidationModel;
@@ -22,6 +23,7 @@ public class CustomerController {
     private final ValidateCustomParams validateCustomParams;
     private final ValidationModel validationModel;
     private final Authorization authorization;
+    private final PaymentService paymentService;
 
     @GetMapping(PATH_INFO)
     public ResponseEntity<?> getInformationCustomer(){
@@ -74,7 +76,7 @@ public class CustomerController {
         validationModel.validateModel(request);
 
         return authorization.getResponseOk(
-                customerService.updateValues(request)
+                paymentService.processPayment(request)
         );
     }
 }
