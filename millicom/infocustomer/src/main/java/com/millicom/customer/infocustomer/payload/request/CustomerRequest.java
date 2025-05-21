@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class CustomerRequest {
 
-    private Integer id;
+    private Integer identity;
     @NotNull(message = "1100")
     @NotBlank(message = "1101")
     private String name;
@@ -27,11 +27,10 @@ public class CustomerRequest {
     private String email;
     @NotNull(message = "1100")
     @NotBlank(message = "1101")
+    private String password;
     @Pattern(regexp = "\\d{16}", message = "The field creditCardNumber must be 16 digits long")
-    private String creditCardNumber;
-    @NotNull(message = "1100")
-    @NotBlank(message = "1101")
+    private String creditCard;
     @Pattern(regexp = "\\d{3}", message = "The field cardCvv must be 3 digits long")
-    private String cardCvv;
+    private String creditCvv;
     private String usernameManager;
 }

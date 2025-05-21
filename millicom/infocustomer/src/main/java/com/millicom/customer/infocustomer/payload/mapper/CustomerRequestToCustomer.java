@@ -13,9 +13,6 @@ public interface CustomerRequestToCustomer {
 
     CustomerRequestToCustomer INSTANCE = Mappers.getMapper(CustomerRequestToCustomer.class);
 
-    @Mapping(target = "identity", source = "request.id")
-    @Mapping(target = "creditCard", source = "request.creditCardNumber")
-    @Mapping(target = "creditCvv", source = "request.cardCvv")
     @Mapping(target = "usernameAdd", source = "request.usernameManager")
     @Mapping(target = "usernameUpd", source = "request.usernameManager")
     CustomerModel classToModel(CustomerRequest request);

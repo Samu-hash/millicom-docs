@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements  CustomerService {
     @Override
     public CustomerModel updateValues(CustomerRequest customerRequest) {
 
-        if(Objects.isNull(customerRequest.getId()) || customerRequest.getId() == 0)
+        if(Objects.isNull(customerRequest.getIdentity()) || customerRequest.getIdentity() == 0)
             throw new ValidationException(List.of(new ErrorHandler(0, "Identifier is required")));
 
         CustomerModel model = CustomerRequestToCustomer.INSTANCE.classToModel(customerRequest);

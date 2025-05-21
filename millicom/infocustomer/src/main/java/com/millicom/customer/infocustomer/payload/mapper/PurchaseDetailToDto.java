@@ -13,11 +13,8 @@ public interface PurchaseDetailToDto {
     PurchaseDetailToDto INSTANCE = Mappers.getMapper(PurchaseDetailToDto.class);
 
     @Mapping(target = "idPurchase", source = "purchaseId")
-    @Mapping(target = "productId", source = "request.productId")
+    @Mapping(target = "idProduct", source = "request.productId")
     @Mapping(target = "qtyTotal", source = "request.quantity")
     @Mapping(target = "priceTotal", source = "request.price")
     PurchaseDetailsModel classToModel(PaymentProductListRequest request, Integer purchaseId);
-
-    List<PurchaseDetailsModel> classToModel(List<PaymentProductListRequest> request, Integer purchaseId);
-
 }

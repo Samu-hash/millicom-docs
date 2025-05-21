@@ -44,30 +44,36 @@ const CartTab = () => {
             return;
         }
 
+        if (!userId) {
+            setPaymentError('Debe de iniciar sesion para poder continuar con el pago.');
+            return;
+        }
+
         try {
 
             const body = {
                 'idUser': userId,
                 'address': address,
                 'details': productDetails,
-                'payment':{
-                    'cardNumber':cardNumber,
-                    'cardName':cardName,
-                    'expiry':expiry,
-                    'cvv':cvv,
+                'payment': {
+                    'cardNumber': cardNumber,
+                    'cardName': cardName,
+                    'expiry': expiry,
+                    'cvv': cvv,
                 }
             };
 
             console.log(body)
 
-            /*const response = await savePayment(body);
+            const response = await savePayment(body);
             if (response.code === 200 && response.data) {
 
                 setPaymentSuccess('¡Pago realizado con éxito!');
                 setPaymentError('');
+                localStorage.removeItem("carts")
             } else {
                 setError('No se pudo procesar la transaccion.');
-            }*/
+            }
         } catch (err) {
             console.error(err);
             setError('Error al procesar la transaccio');
@@ -77,7 +83,7 @@ const CartTab = () => {
 
         setTimeout(() => {
             setShowPaymentModal(false);
-            setPaymentInfo({ cardNumber: '', cardName: '', expiry: '', cvv: '', address:'' });
+            setPaymentInfo({ cardNumber: '', cardName: '', expiry: '', cvv: '', address: '' });
             setPaymentSuccess('');
             dispatch(toggleStatusTab());
         }, 2000);

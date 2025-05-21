@@ -1,5 +1,7 @@
 package com.millicom.customer.infocustomer.controller;
 
+import com.millicom.customer.infocustomer.payload.error.ErrorHandler;
+import com.millicom.customer.infocustomer.payload.error.ValidationException;
 import com.millicom.customer.infocustomer.payload.request.CustomerCreateRequest;
 import com.millicom.customer.infocustomer.payload.request.CustomerRequest;
 import com.millicom.customer.infocustomer.payload.request.CustomerRequestParams;
@@ -12,6 +14,9 @@ import com.millicom.customer.infocustomer.utils.validations.ValidationModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping
@@ -63,7 +68,7 @@ public class CustomerController {
 
         validationModel.validateModel(request);
 
-        validateCustomParams.validateId(request.getId());
+        validateCustomParams.validateId(request.getIdentity());
 
         return authorization.getResponseOk(
                 customerService.updateValues(request)
@@ -77,6 +82,17 @@ public class CustomerController {
 
         return authorization.getResponseOk(
                 paymentService.processPayment(request)
+        );
+    }
+
+    @GetMapping(PATH_INFO+"/get-payments/{idUser}")
+    public ResponseEntity<?> getPayments(@PathVariable Integer idUser){
+
+        if(Objects.isNull(idUser))
+            throw new ValidationException(List.of(new ErrorHandler(400, "Se requiere el identificador del usuario.")));
+
+        return authorization.getResponseOk(
+                paymentService.getPurchases(idUser)
         );
     }
 }
